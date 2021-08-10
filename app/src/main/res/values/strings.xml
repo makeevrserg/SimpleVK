@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">SimpleVK</string>
+    <string name="preferences">simple_vk_preferences</string>
+    <string name="token">token</string>
+    <integer name="com_vk_sdk_AppId">7919890</integer>
+</resources>

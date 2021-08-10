@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.makeevrserg.simplevk.ui.friend.FriendViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?colorPrimaryDark"
+        android:orientation="vertical">
+
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleY="0.2"
+            android:scaleX="0.2"
+            android:visibility="@{viewModel.isLoading?View.VISIBLE:View.GONE}" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.isLoading?View.GONE:View.VISIBLE}">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?colorPrimaryDark"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/imageViewPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_placeholder"
+                    app:imageUrl="@{viewModel.friend.photoMax}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textViewName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{viewModel.friend.firstName+" "+viewModel.friend.lastName}'
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewPhoto" />
+
+                <TextView
+                    android:id="@+id/textViewStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{viewModel.friend.status}'
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+
+                <TextView
+                    android:id="@+id/textViewOnline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{(viewModel.friend.online.value==1)?"В сети":("Не в сети")}'
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewStatus" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutBirthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@+id/imageViewPhoto"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewOnline"
+                    tools:layout_editor_absoluteY="44dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="top"
+                        android:src="@drawable/ic_birthday" />
+
+                    <TextView
+                        android:id="@+id/textViewInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="10dp"
+                        android:text='@{"День рождения: "+viewModel.friend.bdate}'
+                        android:textColor="?colorOnPrimary" />
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/buttonFriends"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->viewModel.onFriendsSelected()}"
+                    android:text='@{"Друзей: " + viewModel.friend.counters.friends.toString()}'
+                    android:textColor="?colorOnPrimary"
+                    app:layout_constraintStart_toStartOf="@+id/imageViewPhoto"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayoutBirthday" />
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->viewModel.onGroupSelected()}"
+                    android:text='@{"Подписок: " + viewModel.friend.counters.pages}'
+                    android:textColor="?colorOnPrimary"
+                    app:layout_constraintStart_toStartOf="@+id/imageViewPhoto"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonFriends" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="@{(viewModel.friend.isClosed==true &amp;&amp; viewModel.friend.canAccessClosed==false)?View.VISIBLE:View.GONE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="200dp"
+                        android:src="@drawable/ic_lock_profile" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Это закрытый профиль"
+                        android:textAlignment="center"
+                        android:textColor="?colorOnPrimary"
+                        android:textSize="25sp" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+</layout>
