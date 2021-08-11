@@ -28,7 +28,7 @@ class GroupFragment : Fragment() {
         )
         val application = requireNotNull(this.activity).application
         val arguments = GroupFragmentArgs.fromBundle(requireArguments())
-        val viewModelFactory = GroupViewModelFactory(arguments.group, application)
+        val viewModelFactory = GroupViewModelFactory(arguments.userID,arguments.group, application)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(GroupViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner

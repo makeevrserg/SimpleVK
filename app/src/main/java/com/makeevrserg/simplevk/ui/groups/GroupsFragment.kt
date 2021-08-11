@@ -56,7 +56,7 @@ class GroupsFragment : Fragment() {
             //Надо было передать просто id группы, но groupsGetById не работает, поэтому пришлось передавать так
             this.findNavController()
                 .navigate(
-                    GroupsFragmentDirections.actionGroupsFragmentToGroupFragment(group.id.toString())
+                    GroupsFragmentDirections.actionGroupsFragmentToGroupFragment(group.id.toString()).setUserID(arguments.userId)
                 )
         })
         binding.recyclerView.adapter = adapter

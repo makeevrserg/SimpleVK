@@ -13,6 +13,7 @@ import com.vk.sdk.api.groups.GroupsService
 import com.vk.sdk.api.groups.dto.*
 
 class GroupViewModel(
+    private val friendID:String?,
     private val groupString: String,
     application: Application
 ) : ViewModel() {
@@ -42,6 +43,7 @@ class GroupViewModel(
         //Через offset берется первая группа
         VK.execute(
             GroupsService().groupsGet(
+                userId=friendID?.toIntOrNull()?:VK.getUserId(),
             ), callback = vkApiEveryGroupCallback()
         )
 
@@ -51,6 +53,7 @@ class GroupViewModel(
     private fun loadGroup(offset:Int){
         VK.execute(
             GroupsService().groupsGetExtended(
+                userId=friendID?.toIntOrNull()?:VK.getUserId(),
                 offset=offset,
                 count=1,
                 fields = GroupsFields.values().asList()
@@ -71,6 +74,8 @@ class GroupViewModel(
         override fun success(result: GroupsGetExtendedResponse) {
             _group.value = result.items[0]
             _isLoading.value = false
+            Log.d(TAG, "success: ${_group.value?.isMember}")
+            Log.d(TAG, "success: ${_group.value?.isMember?.value}")
         }
 
 
@@ -84,8 +89,6 @@ class GroupViewModel(
 
         override fun success(result: GroupsGetResponse) {
             val offset = result.items.indexOf(groupString.toIntOrNull())
-            Log.d(TAG, "success: ${result.items}")
-            Log.d(TAG, "success: ${offset}")
             loadGroup(offset)
         }
     }

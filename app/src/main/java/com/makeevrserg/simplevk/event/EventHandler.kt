@@ -17,4 +17,5 @@ class EventHandler (private val content: String,private val type:EventType) {
         isEnabled = false
         return content
     }
+
 }

@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:background="?colorPrimary"
-                android:text='@{(viewModel.group.isSubscribed().value==1)?"Отписаться":"Подписаться"}'
+                android:text='@{(viewModel.group.isMember().value==1)?"Отписаться":"Подписаться"}'
                 android:textColor="?colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
